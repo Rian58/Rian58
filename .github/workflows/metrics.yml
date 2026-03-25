@@ -1,0 +1,43 @@
+name: 3D Metrics
+on:
+  # Update setiap jam 00:00 WIB
+  schedule: [{ cron: "0 17 * * *" }]
+  workflow_dispatch:
+  push: { branches: ["master", "main"] }
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 📅 Generate 3D Isometric Map
+        uses: lowlighter/metrics@latest
+        with:
+          filename: github-metrics.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # --- KONFIGURASI ---
+          user: Rian58
+          template: classic
+          base: "" # Kosongkan base agar fokus ke plugin 3D
+          config_timezone: Asia/Jakarta
+          config_display: large
+          config_padding: 0, 10%
+          
+          # --- PLUGINS ---
+          
+          # 1. ISOMETRIC CALENDAR (Fitur Utama 3D)
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          
+          # 2. ACHIEVEMENTS (Badge Prestasi)
+          plugin_achievements: yes
+          plugin_achievements_display: compact
+          plugin_achievements_threshold: B
+          
+          # 3. LANGUAGES (Analisis Bahasa)
+          plugin_languages: yes
+          plugin_languages_sections: most-used
+          plugin_languages_details: percentage
+          plugin_languages_indepth: yes
